@@ -1,0 +1,85 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@*@using MathCaptcha;
+    @using CaptchaMvc;*@
+
+@model DDAssignment.Models.UserVM
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Login";
+}
+<style>
+    .wrap-input100-captcha {
+        text-align: center;
+    }
+
+    input#CaptchaInputText {
+        width: 40%;
+         text-align: center;
+        border-bottom: 1px solid #ccc !important;
+    }
+</style>
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('/Content/images/bg-01.jpg');">
+        <div class="col-lg-12 text-here">
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-success" style="float: none;" role="alert">
+                    <b>@TempData["Message"]</b>
+                </div>
+            }
+            @if (TempData["DeleteMessage"] != null)
+            {
+                <div class="alert alert-danger" style="float: none;" role="alert">
+                    <b>@TempData["DeleteMessage"]</b>
+                </div>
+            }
+            @if (TempData["Alert"] != null)
+            {
+                <div class="alert alert-danger" style="float: none;" role="alert">
+                    <b>@TempData["Alert"]</b>
+                </div>
+            }
+        </div>
+        <div class="wrap-login100 p-t-30 p-b-50">
+            <span class="login100-form-title p-b-41">
+                User Login
+            </span>
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "login100-form validate-form p-b-33 p-t-5" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="wrap-input100 validate-input" data-validate="Enter username">
+                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "input100", placeholder = "Email/Username" } })
+                    <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input100", placeholder = "Password", type = "password" } })
+                    <span class="focus-input100" data-placeholder="&#xe80f;"></span>
+                </div>
+                <div class="wrap-input100-captcha" data-validate="Enter Captcha">
+                    @Html.MathCaptcha()
+
+                    @*@Html.Captcha(3)*@
+                </div>
+                <div class="container-login100-form-btn m-t-32">
+                    <button class="login100-form-btn" type="submit">
+                        Login
+                    </button>
+                </div>
+            }
+        </div>
+
+
+
+
+
+
+
+    </div>
+</div>
+
+
+
+<div id="dropDownSelect1"></div>
+

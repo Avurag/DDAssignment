@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DDAssignmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="NameList">
+    <Key>
+      <PropertyRef Name="SeqID" />
+    </Key>
+    <Property Name="SeqID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" />
+    <Property Name="LastName" Type="nvarchar(max)" />
+    <Property Name="Username" Type="nvarchar" MaxLength="200" />
+    <Property Name="Password" Type="nvarchar(max)" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="ModifiedOn" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Grid_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="NameList" Type="Self.NameList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="NameList">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DDAssignmentModelStoreContainer">
+    <EntitySet Name="NameList" EntityType="Self.NameList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Grid_Users" Association="Self.FK_Grid_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="NameList" EntitySet="NameList" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

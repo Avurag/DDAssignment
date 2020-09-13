@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DDAssignmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="NameList" Relationship="DDAssignmentModel.FK_Grid_Users" FromRole="Users" ToRole="NameList" />
+  </EntityType>
+  <EntityContainer Name="DDAssignmentEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="NameList" EntityType="DDAssignmentModel.NameList" />
+    <AssociationSet Name="FK_Grid_Users" Association="DDAssignmentModel.FK_Grid_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="NameList" EntitySet="NameList" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="NameList">
+    <Key>
+      <PropertyRef Name="SeqID" />
+    </Key>
+    <Property Name="SeqID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <NavigationProperty Name="Users" Relationship="DDAssignmentModel.FK_Grid_Users" FromRole="NameList" ToRole="Users" />
+  </EntityType>
+  <Association Name="FK_Grid_Users">
+    <End Type="DDAssignmentModel.Users" Role="Users" Multiplicity="0..1" />
+    <End Type="DDAssignmentModel.NameList" Role="NameList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="NameList">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
